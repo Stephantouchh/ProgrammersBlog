@@ -20,7 +20,7 @@ namespace ProgrammersBlog.Data.Concrete
 
         public UnitOfWork(ProgrammersBlogContext context)
         {
-            _context = context; 
+            _context = context;
         }
 
         public IArticleRepository Articles => _articleRepository ?? new EfArticleRepository(_context);
