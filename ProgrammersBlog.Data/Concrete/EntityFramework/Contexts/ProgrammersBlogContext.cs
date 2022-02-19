@@ -15,9 +15,13 @@ namespace ProgrammersBlog.Data.Concrete.EntityFramework.Contexts
         public DbSet<Article> Articles { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Comment> Comments { get; set; }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer(@"Server=NIHAT-OVALıOĞLU;Database=ProgrammersBlog;Trusted_Connection=True;MultipleActiveResultSets=True;");
+        //}
+        public ProgrammersBlogContext(DbContextOptions<ProgrammersBlogContext> options) : base(options)
         {
-            optionsBuilder.UseSqlServer(@"Server=NIHAT-OVALıOĞLU;Database=ProgrammersBlog;Trusted_Connection=True;MultipleActiveResultSets=True;");
+
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

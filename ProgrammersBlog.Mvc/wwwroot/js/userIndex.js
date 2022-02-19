@@ -15,7 +15,6 @@
                 },
                 className: 'btn btn-success',
                 action: function (e, dt, node, config) {
-
                 }
             },
             {
@@ -42,11 +41,11 @@
                                             user.UserName,
                                             user.Email,
                                             user.PhoneNumber,
-                                            `  <img src="/img/${user.Picture}" alt="${user.UserName}" class="my-image-table" />`,
+                                            `<img src="/img/${user.Picture}" alt="${user.UserName}" class="my-image-table" />`,
                                             `
-                                    <button class="btn btn-primary btn-sm btn-update" data-id="${user.Id}"><span class="fas fa-edit"></span></button>
-                                    <button class="btn btn-danger btn-sm btn-delete" data-id="${user.Id}"><span class="fas fa-minus-circle"></span></button>
-                                `
+                                <button class="btn btn-primary btn-sm btn-update" data-id="${user.Id}"><span class="fas fa-edit"></span></button>
+                                <button class="btn btn-danger btn-sm btn-delete" data-id="${user.Id}"><span class="fas fa-minus-circle"></span></button>
+                                            `
                                         ]).node();
                                         const jqueryTableRow = $(newTableRow);
                                         jqueryTableRow.attr('name', `${user.Id}`);
@@ -146,11 +145,11 @@
                                 userAddAjaxModel.UserDto.User.UserName,
                                 userAddAjaxModel.UserDto.User.Email,
                                 userAddAjaxModel.UserDto.User.PhoneNumber,
-                                `  <img src="/img/${userAddAjaxModel.UserDto.User.Picture}" alt="${userAddAjaxModel.UserDto.User.UserName}" class="my-image-table" />`,
+                                `<img src="/img/${userAddAjaxModel.UserDto.User.Picture}" alt="${userAddAjaxModel.UserDto.User.UserName}" class="my-image-table" />`,
                                 `
-                                    <button class="btn btn-primary btn-sm btn-update" data-id="${userAddAjaxModel.UserDto.User.Id}"><span class="fas fa-edit"></span></button>
-                                    <button class="btn btn-danger btn-sm btn-delete" data-id="${userAddAjaxModel.UserDto.User.Id}"><span class="fas fa-minus-circle"></span></button>
-                                `
+                                <button class="btn btn-primary btn-sm btn-update" data-id="${userAddAjaxModel.UserDto.User.Id}"><span class="fas fa-edit"></span></button>
+                                <button class="btn btn-danger btn-sm btn-delete" data-id="${userAddAjaxModel.UserDto.User.Id}"><span class="fas fa-minus-circle"></span></button>
+                            `
                             ]).node();
                             const jqueryTableRow = $(newTableRow);
                             jqueryTableRow.attr('name', `${userAddAjaxModel.UserDto.User.Id}`);
@@ -167,6 +166,7 @@
                     },
                     error: function (err) {
                         console.log(err);
+                        toastr.error(`${err.responseText}`, 'Hata!');
                     }
                 });
             });
@@ -209,8 +209,7 @@
                                 );
 
                                 dataTable.row(tableRow).remove().draw();
-                            }
-                            else {
+                            } else {
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Başarısız İşlem!',
@@ -220,14 +219,14 @@
                         },
                         error: function (err) {
                             console.log(err);
-                            toastr.error(`${err.responseText}`, "Hata!")
+                            toastr.error(`${err.responseText}`, "Hata!");
                         }
                     });
                 }
             });
         });
 
-    /* Ajax GET / Getting the _UserUpdatePartial as Modal Form starts here. */
+    /* Ajax GET / Getting the _UserUpdatePartial as Modal Form starts from here. */
 
     $(function () {
         const url = '/Admin/User/Update/';
@@ -240,12 +239,12 @@
                 $.get(url, { userId: id }).done(function (data) {
                     placeHolderDiv.html(data);
                     placeHolderDiv.find('.modal').modal('show');
-                }).fail(function () {
-                    toastr.error("Bir hata oluştu.");
+                }).fail(function (err) {
+                    toastr.error(`${err.responseText}`, 'Hata!');
                 });
             });
 
-        /* Ajax Post / Updating a User starts from here */
+        /* Ajax POST / Updating a User starts from here */
 
         placeHolderDiv.on('click',
             '#btnUpdate',
@@ -264,8 +263,12 @@
                     success: function (data) {
                         const userUpdateAjaxModel = jQuery.parseJSON(data);
                         console.log(userUpdateAjaxModel);
-                        const id = userUpdateAjaxModel.UserDto.User.Id;
-                        const tableRow = $(`[name="${id}"]`);
+                        let id;
+                        let tableRow;
+                        if (userUpdateAjaxModel.UserDto !== null) {
+                            id = userUpdateAjaxModel.UserDto.User.Id;
+                            tableRow = $(`[name="${id}"]`);
+                        }
                         const newFormBody = $('.modal-body', userUpdateAjaxModel.UserUpdatePartial);
                         placeHolderDiv.find('.modal-body').replaceWith(newFormBody);
                         const isValid = newFormBody.find('[name="IsValid"]').val() === 'True';
@@ -276,11 +279,11 @@
                                 userUpdateAjaxModel.UserDto.User.UserName,
                                 userUpdateAjaxModel.UserDto.User.Email,
                                 userUpdateAjaxModel.UserDto.User.PhoneNumber,
-                                `  <img src="/img/${userUpdateAjaxModel.UserDto.User.Picture}" alt="${userUpdateAjaxModel.UserDto.User.UserName}" class="my-image-table" />`,
+                                `<img src="/img/${userUpdateAjaxModel.UserDto.User.Picture}" alt="${userUpdateAjaxModel.UserDto.User.UserName}" class="my-image-table" />`,
                                 `
-                                    <button class="btn btn-primary btn-sm btn-update" data-id="${userUpdateAjaxModel.UserDto.User.Id}"><span class="fas fa-edit"></span></button>
-                                    <button class="btn btn-danger btn-sm btn-delete" data-id="${userUpdateAjaxModel.UserDto.User.Id}"><span class="fas fa-minus-circle"></span></button>
-                                `
+                                <button class="btn btn-primary btn-sm btn-update" data-id="${userUpdateAjaxModel.UserDto.User.Id}"><span class="fas fa-edit"></span></button>
+                                <button class="btn btn-danger btn-sm btn-delete" data-id="${userUpdateAjaxModel.UserDto.User.Id}"><span class="fas fa-minus-circle"></span></button>
+                            `
                             ]);
                             tableRow.attr("name", `${id}`);
                             dataTable.row(tableRow).invalidate();
@@ -291,14 +294,14 @@
                                 let text = $(this).text();
                                 summaryText = `*${text}\n`;
                             });
-                            toastr.warning(summaryText);
+                            toastr.warning(summaryText, 'Dikkat!');
                         }
                     },
                     error: function (error) {
                         console.log(error);
+                        toastr.error(`${err.responseText}`, 'Hata!');
                     }
                 });
             });
-
     });
 });
