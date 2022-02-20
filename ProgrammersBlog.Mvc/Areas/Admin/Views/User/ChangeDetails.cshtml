@@ -4,6 +4,12 @@
     ViewBag.Title = "Profili Düzenle";
 }
 
+<ol class="breadcrumb mb-3 mt-3">
+    <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Home" asp-action="Index">Admin</a></li>
+    <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="User" asp-action="Index">Kullanıcılar</a></li>
+    <li class="breadcrumb-item active"><a asp-area="Admin" asp-controller="User" asp-action="ChangeDetails">Kullanıcı Düzenle</a></li>
+</ol>
+
 <div class="row">
     <div class="col-lg-6 offset-lg-3">
         <div class="card mt-3">
