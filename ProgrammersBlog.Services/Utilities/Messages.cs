@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ProgrammersBlog.Services.Utilities
+﻿namespace ProgrammersBlog.Services.Utilities
 {
     public static class Messages
     {

@@ -3,10 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
 using ProgrammersBlog.Entities.Concrete;
 using ProgrammersBlog.Mvc.Areas.Admin.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ProgrammersBlog.Mvc.Areas.Admin.ViewComponents
 {

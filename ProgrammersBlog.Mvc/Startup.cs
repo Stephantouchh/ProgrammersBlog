@@ -1,16 +1,15 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ProgrammersBlog.Services.AutoMapper.Profiles;
-using ProgrammersBlog.Services.Extensions;
-using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Http;
 using ProgrammersBlog.Mvc.AutoMapper.Profiles;
 using ProgrammersBlog.Mvc.Helpers.Abstract;
 using ProgrammersBlog.Mvc.Helpers.Concrete;
-using Microsoft.Extensions.Configuration;
+using ProgrammersBlog.Services.AutoMapper.Profiles;
+using ProgrammersBlog.Services.Extensions;
+using System.Text.Json.Serialization;
 
 namespace ProgrammersBlog.Mvc
 {
@@ -28,7 +27,7 @@ namespace ProgrammersBlog.Mvc
             {
                 opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-            });
+            }).AddNToastNotifyToastr();
             services.AddSession();
             services.AddAutoMapper(typeof(CategoryProfile), typeof(ArticleProfile), typeof(UserProfile), typeof(ViewModelsProfile));
             services.LoadMyServices(connectionString: Configuration.GetConnectionString("LocalDB"));
@@ -68,15 +67,11 @@ namespace ProgrammersBlog.Mvc
             //app.UseHttpsRedirection();
 
             app.UseSession();
-
             app.UseStaticFiles();
-
             app.UseRouting();
-
             app.UseAuthentication();
-
             app.UseAuthorization();
-
+            app.UseNToastNotify();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapAreaControllerRoute(
