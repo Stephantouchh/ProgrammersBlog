@@ -12,7 +12,7 @@ namespace ProgrammersBlog.Data.Concrete.EntityFramework.Mappings
             builder.HasKey(rc => rc.Id);
 
             // Maps to the AspNetRoleClaims table
-            builder.ToTable("AspNetRoleClaims");
+            builder.ToTable("RoleClaims");
         }
     }
 }

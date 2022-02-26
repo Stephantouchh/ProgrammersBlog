@@ -16,7 +16,6 @@
                 },
                 className: 'btn btn-success',
                 action: function (e, dt, node, config) {
-
                 }
             },
             {
@@ -50,10 +49,10 @@
                                     <td>${category.CreatedByName}</td>
                                     <td>${convertToShortDate(category.ModifiedDate)}</td>
                                     <td>${category.ModifiedByName}</td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm btn-update" data-id="${category.Id}"><span class="fas fa-edit"></span></button>
-                                    <button class="btn btn-danger btn-sm btn-delete" data-id="${category.Id}"><span class="fas fa-minus-circle"></span></button>
-                                </td>
+                                    <td>
+                                <button class="btn btn-primary btn-sm btn-update" data-id="${category.Id}"><span class="fas fa-edit"></span></button>
+                                <button class="btn btn-danger btn-sm btn-delete" data-id="${category.Id}"><span class="fas fa-minus-circle"></span></button>
+                                    </td>
                                             </tr>`;
                                     });
                                 $('#categoriesTable > tbody').replaceWith(tableBody);
@@ -152,11 +151,11 @@
                                                     <td>${categoryAddAjaxModel.CategoryDto.Category.CreatedByName}</td>
                                                     <td>${convertToShortDate(categoryAddAjaxModel.CategoryDto.Category.ModifiedDate)}</td>
                                                     <td>${categoryAddAjaxModel.CategoryDto.Category.ModifiedByName}</td>
-                                                     <td>
-                                                            <button class="btn btn-primary btn-sm btn-update" data-id="${categoryAddAjaxModel.CategoryDto.Category.Id}"><span class="fas fa-edit"></span></button>
-                                                            <button class="btn btn-danger btn-sm btn-delete" data-id="${categoryAddAjaxModel.CategoryDto.Category.Id}"><span class="fas fa-minus-circle"></span></button>
-                                                     </td>
-                                                  </tr>`;
+                                                    <td>
+                                                        <button class="btn btn-primary btn-sm btn-update" data-id="${categoryAddAjaxModel.CategoryDto.Category.Id}"><span class="fas fa-edit"></span></button>
+                                                        <button class="btn btn-danger btn-sm btn-delete" data-id="${categoryAddAjaxModel.CategoryDto.Category.Id}"><span class="fas fa-minus-circle"></span></button>
+                                                    </td>
+                                                </tr>`;
                         const newTableRowObject = $(newTableRow);
                         newTableRowObject.hide();
                         $('#categoriesTable').append(newTableRowObject);
@@ -211,8 +210,7 @@
                                 );
 
                                 tableRow.fadeOut(3500);
-                            }
-                            else {
+                            } else {
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Başarısız İşlem!',
@@ -228,6 +226,9 @@
                 }
             });
         });
+
+    /* Ajax GET / Getting the _CategoryUpdatePartial as Modal Form starts from here. */
+
     $(function () {
         const url = '/Admin/Category/Update/';
         const placeHolderDiv = $('#modalPlaceHolder');
@@ -244,7 +245,7 @@
                 });
             });
 
-        /* Ajax Post / Updating a Category starts from here */
+        /* Ajax POST / Updating a Category starts from here */
 
         placeHolderDiv.on('click',
             '#btnUpdate',
@@ -266,19 +267,27 @@
                                 <tr name="${categoryUpdateAjaxModel.CategoryDto.Category.Id}">
                                                     <td>${categoryUpdateAjaxModel.CategoryDto.Category.Id}</td>
                                                     <td>${categoryUpdateAjaxModel.CategoryDto.Category.Name}</td>
-                                                    <td>${categoryUpdateAjaxModel.CategoryDto.Category.Description}</td>
-                                                    <td>${categoryUpdateAjaxModel.CategoryDto.Category.IsActive ? "Evet" : "Hayır"}</td>
-                                                    <td>${categoryUpdateAjaxModel.CategoryDto.Category.IsDeleted ? "Evet" : "Hayır"}</td>
+                                                    <td>${categoryUpdateAjaxModel.CategoryDto.Category
+                                .Description}</td>
+                                                    <td>${categoryUpdateAjaxModel
+                                .CategoryDto.Category.IsActive ? "Evet" : "Hayır"}</td>
+                                                    <td>${categoryUpdateAjaxModel
+                                .CategoryDto.Category.IsDeleted ? "Evet" : "Hayır"}</td>
                                                     <td>${categoryUpdateAjaxModel.CategoryDto.Category.Note}</td>
-                                                    <td>${convertToShortDate(categoryUpdateAjaxModel.CategoryDto.Category.CreatedDate)}</td>
-                                                    <td>${categoryUpdateAjaxModel.CategoryDto.Category.CreatedByName}</td>
-                                                    <td>${convertToShortDate(categoryUpdateAjaxModel.CategoryDto.Category.ModifiedDate)}</td>
-                                                    <td>${categoryUpdateAjaxModel.CategoryDto.Category.ModifiedByName}</td>
-                                                     <td>
-                                                            <button class="btn btn-primary btn-sm btn-update" data-id="${categoryUpdateAjaxModel.CategoryDto.Category.Id}"><span class="fas fa-edit"></span></button>
-                                                            <button class="btn btn-danger btn-sm btn-delete" data-id="${categoryUpdateAjaxModel.CategoryDto.Category.Id}"><span class="fas fa-minus-circle"></span></button>
-                                                     </td>
-                                                  </tr>`;
+                                                    <td>${convertToShortDate(categoryUpdateAjaxModel.CategoryDto
+                                    .Category.CreatedDate)}</td>
+                                                    <td>${categoryUpdateAjaxModel.CategoryDto.Category
+                                .CreatedByName}</td>
+                                                    <td>${convertToShortDate(categoryUpdateAjaxModel.CategoryDto
+                                    .Category.ModifiedDate)}</td>
+                                                    <td>${categoryUpdateAjaxModel.CategoryDto.Category
+                                .ModifiedByName}</td>
+                                                    <td>
+                                                        <button class="btn btn-primary btn-sm btn-update" data-id="${categoryUpdateAjaxModel.CategoryDto.Category.Id}"><span class="fas fa-edit"></span></button>
+                                                        <button class="btn btn-danger btn-sm btn-delete" data-id="${categoryUpdateAjaxModel.CategoryDto.Category.Id
+                            }"><span class="fas fa-minus-circle"></span></button>
+                                                    </td>
+                                                </tr>`;
                         const newTableRowObject = $(newTableRow);
                         const categoryTableRow = $(`[name="${categoryUpdateAjaxModel.CategoryDto.Category.Id}"]`);
                         newTableRowObject.hide();

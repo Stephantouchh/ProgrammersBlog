@@ -58,7 +58,7 @@
                                             newArticle.Title,
                                             `<img src="/img/${newArticle.Thumbnail}" alt="${newArticle.Title}" class="my-image-table" />`,
                                             `${convertToShortDate(newArticle.Date)}`,
-                                            newArticle.ViewsCount,
+                                            newArticle.ViewCount,
                                             newArticle.CommentCount,
                                             `${newArticle.IsActive ? "Evet" : "Hayır"}`,
                                             `${newArticle.IsDeleted ? "Evet" : "Hayır"}`,

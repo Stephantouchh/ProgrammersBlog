@@ -12,20 +12,15 @@ using System.Threading.Tasks;
 
 namespace ProgrammersBlog.Services.Concrete
 {
-    public class ArticleManager : IArticleService
+    public class ArticleManager : ManagerBase, IArticleService
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
-
-        public ArticleManager(IUnitOfWork unitOfWork, IMapper mapper)
+        public ArticleManager(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
         {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
         }
 
         public async Task<IDataResult<ArticleDto>> GetAsync(int articleId)
         {
-            var article = await _unitOfWork.Articles.GetAsync(a => a.Id == articleId, a => a.User, a => a.Category);
+            var article = await UnitOfWork.Articles.GetAsync(a => a.Id == articleId, a => a.User, a => a.Category);
             if (article != null)
             {
                 return new DataResult<ArticleDto>(ResultStatus.Success, new ArticleDto
@@ -39,7 +34,7 @@ namespace ProgrammersBlog.Services.Concrete
 
         public async Task<IDataResult<ArticleListDto>> GetAllAsync()
         {
-            var articles = await _unitOfWork.Articles.GetAllAsync(null, a => a.User, a => a.Category);
+            var articles = await UnitOfWork.Articles.GetAllAsync(null, a => a.User, a => a.Category);
             if (articles.Count > -1)
             {
                 return new DataResult<ArticleListDto>(ResultStatus.Success, new ArticleListDto
@@ -53,7 +48,7 @@ namespace ProgrammersBlog.Services.Concrete
 
         public async Task<IDataResult<ArticleListDto>> GetAllByNonDeletedAsync()
         {
-            var articles = await _unitOfWork.Articles.GetAllAsync(a => !a.IsDeleted, ar => ar.User, articles => articles.Category);
+            var articles = await UnitOfWork.Articles.GetAllAsync(a => !a.IsDeleted, ar => ar.User, articles => articles.Category);
             if (articles.Count > -1)
             {
                 return new DataResult<ArticleListDto>(ResultStatus.Success, new ArticleListDto
@@ -67,7 +62,7 @@ namespace ProgrammersBlog.Services.Concrete
 
         public async Task<IDataResult<ArticleListDto>> GetAllByNonDeletedAndActiveAsync()
         {
-            var articles = await _unitOfWork.Articles.GetAllAsync(a => !a.IsDeleted && a.IsActive, ar => ar.User, ar => ar.Category);
+            var articles = await UnitOfWork.Articles.GetAllAsync(a => !a.IsDeleted && a.IsActive, ar => ar.User, ar => ar.Category);
             if (articles.Count > -1)
             {
                 return new DataResult<ArticleListDto>(ResultStatus.Success, new ArticleListDto
@@ -81,10 +76,10 @@ namespace ProgrammersBlog.Services.Concrete
 
         public async Task<IDataResult<ArticleListDto>> GetAllByCategoryAsync(int categoryId)
         {
-            var result = await _unitOfWork.Articles.AnyAsync(c => c.Id == categoryId);
+            var result = await UnitOfWork.Articles.AnyAsync(c => c.Id == categoryId);
             if (result)
             {
-                var articles = await _unitOfWork.Articles.GetAllAsync(a => a.CategoryId == categoryId && !a.IsDeleted && a.IsActive, ar => ar.User,
+                var articles = await UnitOfWork.Articles.GetAllAsync(a => a.CategoryId == categoryId && !a.IsDeleted && a.IsActive, ar => ar.User,
                 ar => ar.Category);
                 if (articles.Count > -1)
                 {
@@ -101,36 +96,36 @@ namespace ProgrammersBlog.Services.Concrete
 
         public async Task<IResult> AddAsync(ArticleAddDto articleAddDto, string createdByName, int userId)
         {
-            var article = _mapper.Map<Article>(articleAddDto);
+            var article = Mapper.Map<Article>(articleAddDto);
             article.CreatedByName = createdByName;
             article.ModifiedByName = createdByName;
             article.UserId = userId;
-            await _unitOfWork.Articles.AddAsync(article);
-            await _unitOfWork.SaveAsync();
+            await UnitOfWork.Articles.AddAsync(article);
+            await UnitOfWork.SaveAsync();
             return new Result(ResultStatus.Success, Messages.Article.Add(article.Title));
         }
 
         public async Task<IResult> UpdateAsync(ArticleUpdateDto articleUpdateDto, string modifiedByName)
         {
-            var oldArticle = await _unitOfWork.Articles.GetAsync(a => a.Id == articleUpdateDto.Id);
-            var article = _mapper.Map<ArticleUpdateDto, Article>(articleUpdateDto, oldArticle);
+            var oldArticle = await UnitOfWork.Articles.GetAsync(a => a.Id == articleUpdateDto.Id);
+            var article = Mapper.Map<ArticleUpdateDto, Article>(articleUpdateDto, oldArticle);
             article.ModifiedByName = modifiedByName;
-            await _unitOfWork.Articles.UpdateAsync(article);
-            await _unitOfWork.SaveAsync();
+            await UnitOfWork.Articles.UpdateAsync(article);
+            await UnitOfWork.SaveAsync();
             return new Result(ResultStatus.Success, Messages.Article.Update(article.Title));
         }
 
         public async Task<IResult> DeleteAsync(int articleId, string modifiedByName)
         {
-            var result = await _unitOfWork.Articles.AnyAsync(a => a.Id == articleId);
+            var result = await UnitOfWork.Articles.AnyAsync(a => a.Id == articleId);
             if (result)
             {
-                var article = await _unitOfWork.Articles.GetAsync(a => a.Id == articleId);
+                var article = await UnitOfWork.Articles.GetAsync(a => a.Id == articleId);
                 article.IsDeleted = true;
                 article.ModifiedByName = modifiedByName;
                 article.ModifiedDate = DateTime.Now;
-                await _unitOfWork.Articles.UpdateAsync(article);
-                await _unitOfWork.SaveAsync();
+                await UnitOfWork.Articles.UpdateAsync(article);
+                await UnitOfWork.SaveAsync();
                 return new Result(ResultStatus.Success, Messages.Article.Delete(article.Title));
             }
             return new Result(ResultStatus.Error, Messages.Article.NotFound(isPlural: false));
@@ -138,12 +133,12 @@ namespace ProgrammersBlog.Services.Concrete
 
         public async Task<IResult> HardDeleteAsync(int articleId)
         {
-            var result = await _unitOfWork.Articles.AnyAsync(a => a.Id == articleId);
+            var result = await UnitOfWork.Articles.AnyAsync(a => a.Id == articleId);
             if (result)
             {
-                var article = await _unitOfWork.Articles.GetAsync(a => a.Id == articleId);
-                await _unitOfWork.Articles.DeleteAsync(article);
-                await _unitOfWork.SaveAsync();
+                var article = await UnitOfWork.Articles.GetAsync(a => a.Id == articleId);
+                await UnitOfWork.Articles.DeleteAsync(article);
+                await UnitOfWork.SaveAsync();
                 return new Result(ResultStatus.Success, Messages.Article.HardDelete(article.Title));
             }
             return new Result(ResultStatus.Error, Messages.Article.NotFound(isPlural: false));
@@ -151,7 +146,7 @@ namespace ProgrammersBlog.Services.Concrete
 
         public async Task<IDataResult<int>> CountAsync()
         {
-            var articlesCount = await _unitOfWork.Articles.CountAsync();
+            var articlesCount = await UnitOfWork.Articles.CountAsync();
             if (articlesCount > -1)
             {
                 return new DataResult<int>(ResultStatus.Success, articlesCount);
@@ -164,7 +159,7 @@ namespace ProgrammersBlog.Services.Concrete
 
         public async Task<IDataResult<int>> CountByNonDeletedAsync()
         {
-            var articlesCount = await _unitOfWork.Articles.CountAsync(a => !a.IsDeleted);
+            var articlesCount = await UnitOfWork.Articles.CountAsync(a => !a.IsDeleted);
             if (articlesCount > -1)
             {
                 return new DataResult<int>(ResultStatus.Success, articlesCount);
@@ -177,11 +172,11 @@ namespace ProgrammersBlog.Services.Concrete
 
         public async Task<IDataResult<ArticleUpdateDto>> GetArticleUpdateDtoAsync(int articleId)
         {
-            var result = await _unitOfWork.Articles.AnyAsync(c => c.Id == articleId);
+            var result = await UnitOfWork.Articles.AnyAsync(c => c.Id == articleId);
             if (result)
             {
-                var article = await _unitOfWork.Articles.GetAsync(c => c.Id == articleId);
-                var articleUpdateDto = _mapper.Map<ArticleUpdateDto>(article);
+                var article = await UnitOfWork.Articles.GetAsync(c => c.Id == articleId);
+                var articleUpdateDto = Mapper.Map<ArticleUpdateDto>(article);
                 return new DataResult<ArticleUpdateDto>(ResultStatus.Success, articleUpdateDto);
             }
             else
