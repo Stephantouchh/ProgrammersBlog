@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using ProgrammersBlog.Data.Abstract;
 using ProgrammersBlog.Data.Concrete;
@@ -6,6 +7,7 @@ using ProgrammersBlog.Data.Concrete.EntityFramework.Contexts;
 using ProgrammersBlog.Entities.Concrete;
 using ProgrammersBlog.Services.Abstract;
 using ProgrammersBlog.Services.Concrete;
+using System;
 
 namespace ProgrammersBlog.Services.Extensions
 {
@@ -27,6 +29,10 @@ namespace ProgrammersBlog.Services.Extensions
                 options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 options.User.RequireUniqueEmail = true;
             }).AddEntityFrameworkStores<ProgrammersBlogContext>();
+            serviceCollection.Configure<SecurityStampValidatorOptions>(options =>
+            {
+                options.ValidationInterval = TimeSpan.FromMinutes(15);
+            });
             serviceCollection.AddScoped<IUnitOfWork, UnitOfWork>();
             serviceCollection.AddScoped<ICategoryService, CategoryManager>();
             serviceCollection.AddScoped<IArticleService, ArticleManager>();

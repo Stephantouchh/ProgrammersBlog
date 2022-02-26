@@ -9,6 +9,7 @@ using ProgrammersBlog.Shared.Utilities.Results.ComplexTypes;
 using ProgrammersBlog.Shared.Utilities.Results.Concrete;
 using System;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ProgrammersBlog.Mvc.Helpers.Concrete
@@ -43,6 +44,12 @@ namespace ProgrammersBlog.Mvc.Helpers.Concrete
 
             /* Resimin uzantısı fileExtension adlı değişkene atanır. */
             string fileExtension = Path.GetExtension(pictureFile.FileName);
+
+
+            Regex regex = new Regex("[*'\",._&#^@]");
+            name = regex.Replace(name, string.Empty);
+
+
             DateTime datetime = DateTime.Now;
             /*
             // Parametre ile gelen değerler kullanılarak yeni bir resim adı oluşturulur.
