@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ViewComponents;
 using ProgrammersBlog.Entities.Concrete;
 using ProgrammersBlog.Mvc.Areas.Admin.Models;
 using System.Threading.Tasks;
