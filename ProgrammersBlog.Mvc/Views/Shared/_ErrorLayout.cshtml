@@ -1,6 +1,6 @@
 ﻿@using Microsoft.Extensions.Options
 @using ProgrammersBlog.Entities.Concrete
-@inject IOptionsSnapshot<WebSiteInfo> WebsiteInfo
+@inject IOptions<WebSiteInfo> WebsiteInfo
 @{
     var websiteInfo = WebsiteInfo.Value;
 }
@@ -25,35 +25,23 @@
     <link href="~/BlogHome/css/blog-home.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" crossorigin="anonymous" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" crossorigin="anonymous"></script>
+    <link href="~/BlogHome/css/error-page-bg-animation.css" rel="stylesheet">
 
 </head>
 
-<body>
+<body class="wrapper">
 
-    <!-- Navigation -->
-    <partial name="_MainMenuPartial" />
-
-    <!-- Page Content -->
-    <div class="container">
-
-        <div class="row">
-
-            <!-- Blog Entries Column -->
-            @RenderBody()
-
-            @await Component.InvokeAsync("RightSideBar")
+    <div id="layoutError">
+        <div id="layoutError_content">
+            <main>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        @RenderBody()
+                    </div>
+                </div>
+            </main>
         </div>
-        <!-- /.row -->
-
     </div>
-    <!-- /.container -->
-    <!-- Footer -->
-
-    <footer class="py-5 bg-dark">
-        <div class="container">
-            <p class="m-0 text-center text-white">Tüm Hakları Saklıdır &copy; Perspective Blog 2022</p>
-        </div>
-    </footer>
 
     <!-- Bootstrap core JavaScript -->
     <script src="~/BlogHome/vendor/jquery/jquery.min.js"></script>

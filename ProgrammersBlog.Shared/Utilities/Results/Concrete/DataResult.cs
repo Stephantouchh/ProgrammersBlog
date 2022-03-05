@@ -1,6 +1,8 @@
-﻿using ProgrammersBlog.Shared.Utilities.Results.Abstract;
+﻿using ProgrammersBlog.Shared.Entities.Concrete;
+using ProgrammersBlog.Shared.Utilities.Results.Abstract;
 using ProgrammersBlog.Shared.Utilities.Results.ComplexTypes;
 using System;
+using System.Collections.Generic;
 
 namespace ProgrammersBlog.Shared.Utilities.Results.Concrete
 {
@@ -11,11 +13,24 @@ namespace ProgrammersBlog.Shared.Utilities.Results.Concrete
             ResultStatus = resultStatus;
             Data = data;
         }
+        public DataResult(ResultStatus resultStatus, T data, IEnumerable<ValidationError> validationErrors)
+        {
+            ResultStatus = resultStatus;
+            Data = data;
+            ValidationErrors = validationErrors;
+        }
         public DataResult(ResultStatus resultStatus, string message, T data)
         {
             ResultStatus = resultStatus;
             Message = message;
             Data = data;
+        }
+        public DataResult(ResultStatus resultStatus, string message, T data, IEnumerable<ValidationError> validationErrors)
+        {
+            ResultStatus = resultStatus;
+            Message = message;
+            Data = data;
+            ValidationErrors = validationErrors;
         }
         public DataResult(ResultStatus resultStatus, string message, T data, Exception exception)
         {
@@ -24,10 +39,19 @@ namespace ProgrammersBlog.Shared.Utilities.Results.Concrete
             Data = data;
             Exception = exception;
         }
-        public T Data { get; }
+        public DataResult(ResultStatus resultStatus, string message, T data, Exception exception, IEnumerable<ValidationError> validationErrors)
+        {
+            ResultStatus = resultStatus;
+            Message = message;
+            Data = data;
+            Exception = exception;
+            ValidationErrors = validationErrors;
+        }
 
         public ResultStatus ResultStatus { get; }
         public string Message { get; }
         public Exception Exception { get; }
+        public IEnumerable<ValidationError> ValidationErrors { get; set; }
+        public T Data { get; }
     }
 }

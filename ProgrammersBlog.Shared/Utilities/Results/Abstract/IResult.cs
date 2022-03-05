@@ -1,5 +1,7 @@
-﻿using ProgrammersBlog.Shared.Utilities.Results.ComplexTypes;
+﻿using ProgrammersBlog.Shared.Entities.Concrete;
+using ProgrammersBlog.Shared.Utilities.Results.ComplexTypes;
 using System;
+using System.Collections.Generic;
 
 namespace ProgrammersBlog.Shared.Utilities.Results.Abstract
 {
@@ -8,5 +10,6 @@ namespace ProgrammersBlog.Shared.Utilities.Results.Abstract
         public ResultStatus ResultStatus { get; } // ResultStatus.Success  // ResultStatus.Error
         public String Message { get; }
         public Exception Exception { get; }
+        public IEnumerable<ValidationError> ValidationErrors { get; set; } //ValidationErrors.Add
     }
 }

@@ -9,6 +9,7 @@ namespace ProgrammersBlog.Services.Abstract
     public interface IArticleService
     {
         Task<IDataResult<ArticleDto>> GetAsync(int articleId);
+        Task<IDataResult<ArticleDto>> GetByIdAsync(int articleId, bool includeCategory, bool includeComments, bool includeUser);
         Task<IDataResult<ArticleUpdateDto>> GetArticleUpdateDtoAsync(int articleId);
         Task<IDataResult<ArticleListDto>> GetAllAsync();
         Task<IDataResult<ArticleListDto>> GetAllByNonDeletedAsync();
