@@ -61,8 +61,8 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var articleAddDto = Mapper.Map<ArticleAddDto>(articleAddViewModel);
-                //var imageResult = await ImageHelper.Upload(articleAddViewModel.Title, articleAddViewModel.ThumbnailFile, PictureType.Post);
-                //articleAddDto.Thumbnail = imageResult.Data.FullName;
+                var imageResult = ImageHelper.Upload(articleAddViewModel.Title, articleAddViewModel.ThumbnailFile, PictureType.Post);
+                articleAddDto.Thumbnail = imageResult;
                 var result = await _articleService.AddAsync(articleAddDto, LoggedInUser.UserName, LoggedInUser.Id);
                 if (result.ResultStatus == ResultStatus.Success)
                 {
