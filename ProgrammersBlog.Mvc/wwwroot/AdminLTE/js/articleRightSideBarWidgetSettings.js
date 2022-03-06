@@ -52,8 +52,11 @@
             duration: 1000,
             showAnim: "fold",
             showOptions: { direction: "left" },
-          /*  minDate: -3,*/
+            /*  minDate: -3,*/
             maxDate: 0,
+            onSelect: function (selectedDate) {
+                $("#endAtDatePicker").datepicker('option', 'minDate', selectedDate || getTodaysDate());
+            }
         });
 
         $("#endAtDatePicker").datepicker({
@@ -78,7 +81,7 @@
             showAnim: "fold",
             showOptions: { direction: "left" },
             /*  minDate: -3,*/
-            maxDate: 0,
+            maxDate: 0
         });
     });
 

@@ -146,5 +146,10 @@ namespace ProgrammersBlog.Shared.Data.Concrete.EntityFramework
             }
             return await query.AsNoTracking().ToListAsync();
         }
+
+        public IQueryable<TEntity> GetAsQueryable()
+        {
+            return _context.Set<TEntity>().AsQueryable();
+        }
     }
 }

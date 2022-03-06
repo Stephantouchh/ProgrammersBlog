@@ -42,12 +42,14 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
             _mapper = mapper;
         }
 
+        [Authorize(Roles = "SuperAdmin")]
         [HttpGet]
         public IActionResult About()
         {
             return View(_aboutUsPageInfo);
         }
 
+        [Authorize(Roles = "SuperAdmin")]
         [HttpPost]
         public IActionResult About(AboutUsPageInfo aboutUsPageInfo)
         {
@@ -70,12 +72,14 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
             return View(aboutUsPageInfo);
         }
 
+        [Authorize(Roles = "SuperAdmin")]
         [HttpGet]
         public IActionResult GeneralSettings()
         {
             return View(_webSiteInfo);
         }
 
+        [Authorize(Roles = "SuperAdmin")]
         [HttpPost]
         public IActionResult GeneralSettings(WebSiteInfo webSiteInfo)
         {
@@ -98,12 +102,14 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
             return View(webSiteInfo);
         }
 
+        [Authorize(Roles = "SuperAdmin")]
         [HttpGet]
         public IActionResult EmailSettings()
         {
             return View(_smtpSettings);
         }
 
+        [Authorize(Roles = "SuperAdmin")]
         [HttpPost]
         public IActionResult EmailSettings(SmtpSettings smtpSettings)
         {
@@ -127,6 +133,7 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
             return View(smtpSettings);
         }
 
+        [Authorize(Roles = "SuperAdmin")]
         [HttpGet]
         public async Task<IActionResult> ArticleRightSideBarWidgetSettings()
         {
@@ -136,6 +143,7 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
             return View(articleRightSideBarWidgetOptionsViewModel);
         }
 
+        [Authorize(Roles = "SuperAdmin")]
         [HttpPost]
         public async Task<IActionResult> ArticleRightSideBarWidgetSettings(ArticleRightSideBarWidgetOptionsViewModel articleRightSideBarWidgetOptionsViewModel)
         {
